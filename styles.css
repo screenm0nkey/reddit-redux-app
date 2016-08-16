@@ -1,0 +1,146 @@
+html,
+body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    height: 100%;
+    padding : 0;
+    margin: 0;
+}
+ul {
+    list-style: none;
+    padding: 10px;
+    margin: 0;
+}
+h1 {
+    margin: 0;
+}
+
+#root {
+    height:100%;
+}
+.the-app {
+    display: flex;
+    flex-direction: column;
+    height : 100%
+}
+
+.the-app header {
+    height:150px;
+    padding-left: 10px;
+}
+.the-app .main {
+    background-color: #cacbd0;
+    border : solid 10px #666666;
+    flex: 1;
+    overflow: hidden;
+    overflow-y: auto;
+}
+.the-app footer { }
+
+
+/*Posts component*/
+ul.listy li {
+    margin-bottom: 10px;
+
+}
+ul.listy li a {
+    text-decoration: none;
+    color: black;
+    font-size: 12px;
+}
+ul.listy li a.read {
+    color: crimson;
+}
+ul.listy li a:hover {
+    color: orange;
+}
+
+
+/*Post component*/
+.imagey {
+    box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+    border: solid 4px #666;
+    position: fixed;
+    top :100px;
+    right : 20px;
+    width : 200px;
+    opacity : 0.8;
+}
+.tiny-imagey {
+    height : 10px;
+    width : 10px;
+    margin-right : 5px;
+    position: relative;
+    top:1px;
+}
+.meta {
+    color : white;
+    display: inline-block;
+    margin-left:10px;
+}
+
+
+/*App component */
+div.heading {
+    clear : both;
+}
+div.heading img {
+    position: absolute;
+    top:0;
+    right : 0;
+    max-height:150px;
+}
+div.heading p {
+    margin: 5px 0;
+    font-size: 12px;
+}
+
+
+/*LastUpdated component*/
+.last-updated .refresh-date {
+    font-size: 11px;
+    color: #666;
+    padding: 2px 10px;
+    border-radius: 3px;
+    background-color: orange;
+    margin-right : 10px;
+}
+.last-updated span {
+    color: white;
+}
+
+/*AddSubreddit component*/
+.add-subreddit {
+    margin:5px;
+}
+
+
+/*Picker component*/
+.picker {
+    margin-bottom: 10px;
+}
+
+
+
+/*SubredditAdmin component*/
+.subreddit-admin  {
+ background-color: orange;
+    margin:10px 0;
+    padding:5px 10px 5px 10px;
+    border-radius : 10px;
+}
+.subreddit-admin form:after {
+    content: ".";
+    visibility: hidden;
+    display: block;
+    height: 0;
+    clear: both;
+}
+.subreddit-admin fieldset  {
+    flex:1;
+    border: none;
+    font-size : 11px;
+    padding : 0;
+    margin: 0;
+    float: left;
+    margin-right:10px;
+}
