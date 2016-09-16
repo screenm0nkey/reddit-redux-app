@@ -23,10 +23,11 @@ function subRedditsLoaded(subReddits, savedSubReddits) {
   }
 }
 
-export function replaceSubreddits(subReddits) {
+export function replaceSubreddits(keep, remove) {
   return {
     type: c.REPLACE_SUBREDDITS,
-    value: subReddits
+    keep,
+    remove
   }
 }
 
@@ -90,6 +91,8 @@ export function refreshReddit(reddit) {
   }
 }
 
+const DELAY = 0;
+
 // driven by the App component's componentWillReceiveProps() method.
 export function fetchSubReddit(reddit, refresh) {
   return (dispatch, getState) => {
@@ -100,7 +103,8 @@ export function fetchSubReddit(reddit, refresh) {
       return;
     }
     // don't fetch if reddit is in cache
-    if (state.cache.redditCache[reddit] && !refresh) {
+    const cachedData = state.cache.redditCache[reddit] || {};
+    if (cachedData.data && cachedData.data.length && !refresh) {
       return;
     }
     // show the loading icon
@@ -118,7 +122,7 @@ export function fetchSubReddit(reddit, refresh) {
         setTimeout(()=> {
           dispatch(requestFinished());
           dispatch(subRedditLoaded(reddit, subRedditData));
-        }, 100)
+        }, DELAY)
       });
   }
 }
@@ -141,22 +145,32 @@ export function fetchSubRedditInfo(dispatch, reddit) {
 const formatRedditData = data => {
   return data.data.children.map(item => {
     const {data} = item;
+    let d = new Date(0); // The 0 there is the key, which sets the date to the epoch
+    d.setUTCSeconds(data.created_utc);
+
     return {
       id: data.id,
       title: data.title,
       url: data.url,
       thumbnail: data.thumbnail,
       comments: data.num_comments,
-      score: data.score
+      score: data.score,
+      date : d.toGMTString().slice(0,16)
     }
   }).sort((a, b)=>b.score - a.score);
 };
 
 // this is subreddit list for the dropdown menus
+/*
+/subreddits/popular
+/subreddits/new
+/subreddits/gold
+/subreddits/default
+ */
 export function fetchSubReddits() {
   return (dispatch, getState) => {
     dispatch(requestStarted());
-    fetch('https://www.reddit.com/subreddits.json')
+    fetch('https://www.reddit.com/subreddits/popular/.json?limit=100')
       .then(res =>res.json())
       .then(json => json.data.children.map(item=>item.data.url.replace('/r/', '').replace('/', '')))
       .then(data => {

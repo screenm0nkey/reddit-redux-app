@@ -29,10 +29,11 @@ export default class Post extends Component {
     const {post, read, onClick} = this.props;
     const classy = read ? 'read' : '';
     const hasThumb = post.thumbnail && post.thumbnail.startsWith('http');
-    const isGif = post.thumbnail.indexOf('gif') >= 0 || post.url.indexOf('gfycat') >=0
+    const isGif = post.thumbnail.indexOf('gif') >= 0 || post.url.indexOf('gfycat') >=0;
 
     return (
-      <li key={post.id}
+      <li className="post"
+          key={post.id}
           onClick={()=>onClick(post.id)}
           onMouseOver={this.onMouseOver}
           onMouseOut={this.onMouseOut}>
@@ -43,6 +44,7 @@ export default class Post extends Component {
           {read && (<strong>[READ] </strong>)}
           {isGif && <strong>[GIF] </strong>}
           {post.title}
+          <span className="date">{post.date}</span>
           <span className="meta">
             [score = {post.score}]
             [comments = {post.comments}]

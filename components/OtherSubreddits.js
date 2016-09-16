@@ -16,7 +16,7 @@ export default class OtherSubreddits extends Component {
   render () {
     const {subRedditsOther} = this.props;
     return (
-      <div className="subreddit-admin">
+      <div className="subreddit-admin other">
         <form onSubmit={this.handleSubmit}>
           {subRedditsOther.map(post => {
               return (<fieldset key={post}><input ref={post} type="checkbox"/>{post}</fieldset>)

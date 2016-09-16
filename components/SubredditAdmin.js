@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
+
 export default class SubredditAdmin extends Component {
 
   constructor(props) {
@@ -10,7 +11,8 @@ export default class SubredditAdmin extends Component {
   handleSubmit(e) {
     e.preventDefault();
     const keep = Object.keys(this.refs).filter(key => !this.refs[key].checked);
-    this.props.replaceSubreddits(keep);
+    const remove = Object.keys(this.refs).filter(key => this.refs[key].checked);
+    this.props.replaceSubreddits(keep, remove);
   }
 
   render () {

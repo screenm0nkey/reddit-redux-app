@@ -1,3 +1,9 @@
+.clearfix:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
 html,
 body {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -17,19 +23,23 @@ h1 {
 #root {
     height:100%;
 }
+
+/* App Component */
 .the-app {
     display: flex;
     flex-direction: column;
     height : 100%
 }
-
 .the-app header {
-    height:150px;
+    z-index:1;
+    height:104px;
     padding-left: 10px;
 }
 .the-app .main {
+    position: relative;
     background-color: #cacbd0;
-    border : solid 10px #666666;
+    border: solid 6px #666666;
+    border-top: solid 21px #666;
     flex: 1;
     overflow: hidden;
     overflow-y: auto;
@@ -38,9 +48,17 @@ h1 {
 
 
 /*Posts component*/
+ul.listy {
+    padding: 0;
+    margin: 0;
+}
 ul.listy li {
-    margin-bottom: 10px;
-
+    margin: 0px;
+    padding: 7px 10px 9px;
+    line-height: 12px;
+}
+ul.listy li:nth-child(even) {
+    background-color: #b3b3b3;
 }
 ul.listy li a {
     text-decoration: none;
@@ -53,33 +71,46 @@ ul.listy li a.read {
 ul.listy li a:hover {
     color: orange;
 }
+.main p {
+    font-size: 40px;
+    color: #adacac;
+    text-align: center;
+    font-weight: bold;
+}
 
 
 /*Post component*/
-.imagey {
+.post .imagey {
     box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
     border: solid 4px #666;
     position: fixed;
-    top :100px;
-    right : 20px;
+    top :120px;
+    right : 30px;
     width : 200px;
     opacity : 0.8;
 }
-.tiny-imagey {
+.post .tiny-imagey {
     height : 10px;
     width : 10px;
     margin-right : 5px;
     position: relative;
     top:1px;
 }
-.meta {
-    color : white;
+.post .meta {
+    color : rgb(212, 255, 0);
     display: inline-block;
     margin-left:10px;
 }
+.post .date {
+    font-style: italic;
+    color: #b35f5f;
+    display: inline-block;
+    margin-left: 5px;
+    font-size: 10px;
+}
 
 
-/*App component */
+    /*App component */
 div.heading {
     clear : both;
 }
@@ -89,9 +120,13 @@ div.heading img {
     right : 0;
     max-height:150px;
 }
-div.heading p {
+p.desc {
     margin: 5px 0;
     font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 15px;
 }
 
 
@@ -111,6 +146,16 @@ div.heading p {
 /*AddSubreddit component*/
 .add-subreddit {
     margin:5px;
+    float: left;
+}
+.add-subreddit input {
+    border: solid 1px #ccc;
+    padding: 2px 10px 3px;
+    border-radius: 3px;
+    position: relative;
+    left: -6px;
+    font-size: 20px;
+    font-weight: bold;
 }
 
 
@@ -123,10 +168,13 @@ div.heading p {
 
 /*SubredditAdmin component*/
 .subreddit-admin  {
- background-color: orange;
+ background-color: #4cbf95;
     margin:10px 0;
     padding:5px 10px 5px 10px;
     border-radius : 10px;
+}
+.subreddit-admin.other  {
+    background-color: #eac18e;
 }
 .subreddit-admin form:after {
     content: ".";

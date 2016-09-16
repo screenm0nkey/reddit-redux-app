@@ -52,11 +52,7 @@ class App extends Component {
   render() {
     const {loading, subReddits, subRedditsOther, redditCache, selectedReddit, read} = this.props;
     const {addSubreddit, replaceSubreddits, addSubreddits} = this.props;
-    const subReddit = redditCache[selectedReddit];
-
-    if (!subReddit || !subReddit.data) {
-      return (<Loading loading={loading}></Loading>);
-    }
+    const subReddit = redditCache[selectedReddit] || {data:[], date : new Date()};
 
     const posts = subReddit ? subReddit.data : [];
     const date = subReddit ? subReddit.date : '';
@@ -69,10 +65,27 @@ class App extends Component {
             <h1>
               Reddit App
               <span style={s.selectedReddit}>R/{selectedReddit}</span>
+              <Loading
+                loading={loading}
+                selectedReddit={selectedReddit}>
+              </Loading>
               <img src={subReddit.img} alt={subReddit.title}/>
             </h1>
-            <p>{subReddit.description}</p>
           </div>
+
+          <div className="clearfix">
+            <AddSubreddit addSubreddit={addSubreddit}></AddSubreddit>
+
+            <Picker
+              items={subReddits}
+              selectedReddit={selectedReddit}
+              onChange={this.handleChange}>
+            </Picker>
+          </div>
+
+
+
+          <p className="desc">{subReddit.description}</p>
 
           <LastUpdated
             items={subReddits}
@@ -80,18 +93,13 @@ class App extends Component {
             showRefresh={showRefresh}
             handleRefresh={this.handleRefresh}>
           </LastUpdated>
-
-          <AddSubreddit addSubreddit={addSubreddit}></AddSubreddit>
-
-          <Picker
-            items={subReddits}
-            selectedReddit={selectedReddit}
-            onChange={this.handleChange}>
-          </Picker>
         </header>
 
         <div className="main">
-          <Posts posts={posts} read={read} onClick={this.handleRedditRead}></Posts>
+          <Posts
+            posts={posts}
+            read={read}
+            onClick={this.handleRedditRead}></Posts>
         </div>
 
 
