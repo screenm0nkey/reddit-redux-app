@@ -1,15 +1,11 @@
 {
-  "name": "redux-async-example",
-  "version": "0.0.0",
-  "description": "Redux async example",
+  "name": "nick-redux-reddit-app",
+  "version": "0.0.1",
+  "description": "Simple Redux App for Reddit",
   "scripts": {
     "start-dev": "node dev-server.js",
     "build" : "rm -rf ./dist && NODE_ENV=production node node_modules/.bin/webpack && cp index.html dist/index.html",
     "start" : "node prod-server.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/reactjs/redux.git"
   },
   "keywords": [
     "react",
@@ -23,9 +19,6 @@
     "flux"
   ],
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/reactjs/redux/issues"
-  },
   "homepage": "http://redux.js.org",
   "dependencies": {
     "babel-polyfill": "^6.3.14",
