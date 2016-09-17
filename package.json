@@ -3,8 +3,9 @@
   "version": "0.0.0",
   "description": "Redux async example",
   "scripts": {
-    "start": "node server.js",
-    "build" : "NODE_ENV=production node node_modules/.bin/webpack && cp index.html dist/index.html"
+    "start-dev": "node dev-server.js",
+    "build" : "rm -rf ./dist && NODE_ENV=production node node_modules/.bin/webpack && cp index.html dist/index.html",
+    "start" : "node prod-server.js"
   },
   "repository": {
     "type": "git",
