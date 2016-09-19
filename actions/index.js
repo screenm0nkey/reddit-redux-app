@@ -115,7 +115,7 @@ export function fetchSubReddit(reddit, refresh) {
       return;
     }
     // show the loading icon
-    dispatch(requestStarted(`Getting SubReddit for ${reddit}`));
+    dispatch(requestStarted(`Getting posts for ${reddit}`));
     dispatch(prepareSubRedditCache(reddit));
     // fetch reddit data
     fetch(`https://www.reddit.com/r/${reddit}.json`)
@@ -182,7 +182,7 @@ const formatRedditData = data => {
  */
 export function fetchSubReddits() {
   return (dispatch, getState) => {
-    dispatch(requestStarted('Getting list of popular sub reddits'));
+    dispatch(requestStarted('Getting list of 100 popular sub reddits'));
     fetch('https://www.reddit.com/subreddits/popular/.json?limit=100')
       .then(res =>res.json())
       .then(json => json.data.children.map(item=>item.data.url.replace('/r/', '').replace('/', '')))
