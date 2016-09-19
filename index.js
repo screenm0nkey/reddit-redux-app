@@ -7,7 +7,6 @@ import configureStore from './store/configureStore';
 import { loadState } from './localStorage';
 
 const preloadedState = loadState();
-
 const store = configureStore(preloadedState);
 
 render(

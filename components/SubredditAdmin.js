@@ -17,6 +17,9 @@ export default class SubredditAdmin extends Component {
 
   render () {
     const {subReddits} = this.props;
+    if (!subReddits.length) {
+      return (<div></div>);
+    }
     return (
       <div className="subreddit-admin">
         <form onSubmit={this.handleSubmit}>

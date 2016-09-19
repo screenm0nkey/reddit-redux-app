@@ -1,9 +1,9 @@
 import * as c from '../constants';
 
-function requestStarted() {
+function requestStarted(val) {
   return {
     type: c.REQUEST_STARTED,
-    value: true
+    value: val
   }
 }
 
@@ -28,6 +28,13 @@ export function replaceSubreddits(keep, remove) {
     type: c.REPLACE_SUBREDDITS,
     keep,
     remove
+  }
+}
+
+export function removeSubReddit(subreddit) {
+  return {
+    type: c.REMOVE_SUBREDDIT,
+    payload : subreddit
   }
 }
 
@@ -108,12 +115,18 @@ export function fetchSubReddit(reddit, refresh) {
       return;
     }
     // show the loading icon
-    dispatch(requestStarted());
+    dispatch(requestStarted(`Getting SubReddit for ${reddit}`));
     dispatch(prepareSubRedditCache(reddit));
     // fetch reddit data
     fetch(`https://www.reddit.com/r/${reddit}.json`)
       .then(res =>res.json())
       .then(subRedditData => {
+        if (subRedditData.error) {
+          dispatch(requestFinished());
+          dispatch(removeSubReddit(reddit));
+          window.alert(`${reddit} is ${subRedditData.message}`);
+          return;
+        }
         // could't get promise.all to work with fetch()
         // so doing nested call
         fetchSubRedditInfo(dispatch, reddit);
@@ -169,7 +182,7 @@ const formatRedditData = data => {
  */
 export function fetchSubReddits() {
   return (dispatch, getState) => {
-    dispatch(requestStarted());
+    dispatch(requestStarted('Getting list of popular sub reddits'));
     fetch('https://www.reddit.com/subreddits/popular/.json?limit=100')
       .then(res =>res.json())
       .then(json => json.data.children.map(item=>item.data.url.replace('/r/', '').replace('/', '')))

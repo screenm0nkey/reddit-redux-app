@@ -3,12 +3,10 @@ import React, { Component, PropTypes } from 'react';
 export default class LastUpdated extends Component {
   render () {
     const {items, date, showRefresh, handleRefresh} = this.props;
+    const isDateStr =  !!(date && date.substr);
     return (
       <div className="last-updated">
-        {items.length === 0 &&
-          <div>Loading Reddit list</div>
-        }
-        {date &&
+        {isDateStr &&
         <span className="refresh-date"><strong> Last updated at</strong> {' ['}{date}.{'] '}</span>
         }
         {showRefresh &&

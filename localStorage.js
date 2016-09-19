@@ -15,7 +15,7 @@ export const saveState = (state) => {
   try {
     const serializedState = JSON.stringify(state);
     setTimeout(()=> {
-      localStorage.setItem('state', serializedState);
+      // localStorage.setItem('state', serializedState);
       console.log(103, 'saveState()', state);
     }, 0);
   } catch (err) {

@@ -30,6 +30,8 @@ function subReddits(state = [], action) {
         ...state,
         action.value
       ]).sort(sorter);
+    case c.REMOVE_SUBREDDIT:
+      return state.filter((item)=>action.payload !== item);
     case c.ADD_SUBREDDITS:
       return uniq([
         ...state,
@@ -41,7 +43,7 @@ function subReddits(state = [], action) {
 }
 
 
-// this is a list of subreddits which are not in the subreddit list (above)
+// this is a list of popular subreddits which are not in the subreddit list (above)
 // they are displayed in the OtherSubreddits component
 function subRedditsOther(state = [], action) {
   switch (action.type) {
@@ -97,7 +99,7 @@ function redditCache(state = {}, action) {
     case c.SUBREDDIT_LOADED:
       obj[action.reddit] = {
         data: action.value,
-        date: action.reddit === 'default' ? '' : new Date().toGMTString()
+        date: action.reddit === c.DEFAULT ? '' : new Date().toGMTString()
       };
       return Object.assign({}, state, obj);
     case c.SUBREDDIT_INFO_LOADED:
@@ -129,14 +131,14 @@ function redditsRead(state = {}, action) {
 // default to first item if user deletes active selected reddit
 function checkSelectedRedditIsInList(state, action) {
   if (action.keep.indexOf(state)<0) {
-    return action.keep[0];
+    return action.keep[0] || c.DEFAULT;
   } else {
     return state;
   }
 }
 
 
-function selectedReddit(state = 'default', action) {
+function selectedReddit(state = c.DEFAULT, action) {
   switch (action.type) {
     case c.REPLACE_SUBREDDITS:
       return checkSelectedRedditIsInList(state, action);

@@ -8,5 +8,7 @@ export const SUBREDDIT_READ = 'SUBREDDIT_READ';
 export const REQUEST_STARTED = 'REQUEST_STARTED';
 export const REQUEST_FINISHED = 'REQUEST_FINISHED';
 export const ADD_SUBREDDIT = 'ADD_SUBREDDIT';
+export const REMOVE_SUBREDDIT = 'REMOVE_SUBREDDIT';
 export const ADD_SUBREDDITS = 'ADD_SUBREDDITS';
 export const REFRESH = true;
+export const DEFAULT = 'default';

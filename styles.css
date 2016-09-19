@@ -176,6 +176,11 @@ p.desc {
 .subreddit-admin.other  {
     background-color: #eac18e;
 }
+.subreddit-admin form {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
 .subreddit-admin form:after {
     content: ".";
     visibility: hidden;
@@ -185,6 +190,8 @@ p.desc {
 }
 .subreddit-admin fieldset  {
     flex:1;
+    min-width: 100px;
+    white-space: nowrap;
     border: none;
     font-size : 11px;
     padding : 0;

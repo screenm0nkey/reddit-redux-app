@@ -57,14 +57,15 @@ class App extends Component {
     const posts = subReddit ? subReddit.data : [];
     const date = subReddit ? subReddit.date : '';
     const showRefresh = !!(posts.length > 0 && selectedReddit && selectedReddit !== 'default');
+    const title = selectedReddit !== c.DEFAULT ? `R/${selectedReddit}` : '';
 
     return (
       <div className="the-app">
         <header>
           <div className="heading">
             <h1>
-              Reddit App
-              <span style={s.selectedReddit}>R/{selectedReddit}</span>
+              Morgan Stanley
+              <span style={s.selectedReddit}>{title}</span>
               <Loading
                 loading={loading}
                 selectedReddit={selectedReddit}>
