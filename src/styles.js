@@ -11,16 +11,6 @@ export const divStyle = {
   opacity : '0.7'
 };
 
-export const navStyle = {
-};
-
-export const posts = {
-  width : '100%',
-  backgroundColor : '#cfd0e0',
-  borderRadius : '10px',
-  padding : '10px'
-};
-
 export const selectedReddit = {
   color : 'red'
 };
