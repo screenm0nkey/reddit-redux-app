@@ -3,9 +3,9 @@
   "version": "0.0.1",
   "description": "Simple Redux App for Reddit",
   "scripts": {
-    "start-dev": "node dev-server.js",
-    "build": "rm -rf ./dist && NODE_ENV=production node node_modules/.bin/webpack -p && cp index.html dist/index.html",
-    "start": "node prod-server.js"
+    "start-dev": "node server-dev.js",
+    "build": "rm -rf ./dist && NODE_ENV=production node node_modules/.bin/webpack -p && cp src/index.html dist/index.html",
+    "start": "node server-prod.js"
   },
   "keywords": [
     "react",
