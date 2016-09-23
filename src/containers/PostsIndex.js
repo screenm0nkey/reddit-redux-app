@@ -21,20 +21,20 @@ class PostsIndex extends Component {
 
   handleRefresh(evt) {
     evt.preventDefault();
-    this.props.fetchSubReddit(this.props.selectedReddit, c.REFRESH);
+    this.props.fetchSubReddit(this.props.selectedSubreddit, c.REFRESH);
   }
 
   handleRedditRead(id) {
-    this.props.subRedditRead(id, this.props.selectedReddit);
+    this.props.subRedditRead(id, this.props.selectedSubreddit);
   }
 
   render() {
-    const {subReddits, redditCache, selectedReddit, read, addSubreddit} = this.props;
-    const subReddit = redditCache[selectedReddit] || {data:[], date : new Date()};
+    const {selectedSubreddits, redditCache, selectedSubreddit, read, addSubreddit} = this.props;
+    const subReddit = redditCache[selectedSubreddit] || {data:[], date : new Date()};
     const posts = subReddit ? subReddit.data : [];
     const date = subReddit ? subReddit.date : '';
-    const showRefresh = !!(posts.length > 0 && selectedReddit && selectedReddit !== 'default');
-    const title = selectedReddit !== c.DEFAULT ? `R/${selectedReddit}` : '';
+    const showRefresh = !!(posts.length > 0 && selectedSubreddit && selectedSubreddit !== 'default');
+    const title = selectedSubreddit !== c.DEFAULT ? `R/${selectedSubreddit}` : '';
 
     return (
       <div>
@@ -49,8 +49,8 @@ class PostsIndex extends Component {
             <AddSubreddit addSubreddit={addSubreddit}></AddSubreddit>
 
             <Picker
-              items={subReddits}
-              selectedReddit={selectedReddit}
+              items={selectedSubreddits}
+              selectedSubreddit={selectedSubreddit}
               onChange={this.handleChange}>
             </Picker>
           </div>
@@ -58,7 +58,7 @@ class PostsIndex extends Component {
           <p className="desc">{subReddit.description}</p>
 
           <LastUpdated
-            items={subReddits}
+            items={selectedSubreddits}
             date={date}
             showRefresh={showRefresh}
             handleRefresh={this.handleRefresh}>
@@ -78,12 +78,12 @@ class PostsIndex extends Component {
 
 
 function mapStateToProps(state) {
-  const {cache, selectedReddit, subReddits, loading} = state;
+  const {cache, selectedSubreddit, selectedSubreddits, loading} = state;
   return {
     redditCache: cache.redditCache,
-    read: cache.redditsRead[selectedReddit] || {},
-    selectedReddit,
-    subReddits, // this is used for dropdown menu
+    read: cache.redditsRead[selectedSubreddit] || {},
+    selectedSubreddit,
+    selectedSubreddits, // this is used for dropdown menu
     loading
   };
 }

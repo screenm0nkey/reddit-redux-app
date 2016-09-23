@@ -10,12 +10,12 @@ class App extends Component {
   }
 
   render() {
-    const {subReddits, popularSubreddits, replaceSubreddits, addSubreddits} = this.props;
+    const {selectedSubreddits, popularSubreddits, replaceSubreddits, addSubreddits} = this.props;
 
     return (
       <div>
         <SubredditAdmin
-          subReddits={subReddits}
+          selectedSubreddits={selectedSubreddits}
           replaceSubreddits={replaceSubreddits}>
         </SubredditAdmin>
 
@@ -29,10 +29,10 @@ class App extends Component {
 }
 
 function mapStateToProps(state) {
-  const {subReddits, popularSubreddits} = state;
+  const {selectedSubreddits, popularSubreddits} = state;
   return {
-    subReddits, // this is used for dropdown menu
-    popularSubreddits, // additional subreddits
+    selectedSubreddits, // this is used for dropdown menu
+    popularSubreddits, // additional selectedSubreddits
   };
 }
 export default connect(mapStateToProps, actions)(App)

@@ -19,7 +19,7 @@ const sorter = (a, b) => {
 
 
 // these the items used in the dropdown menu
-function subReddits(state = [], action) {
+function selectedSubreddits(state = [], action) {
   switch (action.type) {
     case c.REPLACE_SUBREDDITS:// removing subreddit
       return [
@@ -43,7 +43,7 @@ function subReddits(state = [], action) {
 }
 
 
-// this is a list of popular subreddits which are not in the subreddit list (above)
+// this is a list of popular selectedSubreddits which are not in the subreddit list (above)
 // they are displayed in the OtherSubreddits component
 function popularSubreddits(state = [], action) {
   switch (action.type) {
@@ -77,7 +77,7 @@ function loading(state = false, action) {
 }
 
 
-function updateSubRedditInfo(state = {}, action) {
+function updateSubredditInfo(state = {}, action) {
   switch (action.type) {
     case c.SUBREDDIT_INFO_LOADED:
       return Object.assign({}, state, action.value);
@@ -104,7 +104,7 @@ function redditCache(state = {}, action) {
       return Object.assign({}, state, obj);
     case c.SUBREDDIT_INFO_LOADED:
       let subReddit = {
-        [action.reddit] : updateSubRedditInfo(state[action.reddit], action)
+        [action.reddit] : updateSubredditInfo(state[action.reddit], action)
       };
       return Object.assign({}, state, subReddit);
     default:
@@ -121,8 +121,8 @@ function redditsReadGroup(state = {}, action) {
 function redditsRead(state = {}, action) {
   switch (action.type) {
     case c.SUBREDDIT_READ:
-      let group = redditsReadGroup(state[action.selectedReddit], action);
-      return Object.assign({}, state, {[action.selectedReddit] : group});
+      let group = redditsReadGroup(state[action.selectedSubreddit], action);
+      return Object.assign({}, state, {[action.selectedSubreddit] : group});
     default:
       return state;
   }
@@ -138,7 +138,7 @@ function checkSelectedRedditIsInList(state, action) {
 }
 
 
-function selectedReddit(state = c.DEFAULT, action) {
+function selectedSubreddit(state = c.DEFAULT, action) {
   switch (action.type) {
     case c.REPLACE_SUBREDDITS:
       return checkSelectedRedditIsInList(state, action);
@@ -152,12 +152,12 @@ function selectedReddit(state = c.DEFAULT, action) {
 }
 
 export default combineReducers({
-  subReddits,
+  selectedSubreddits,
+  selectedSubreddit,
   popularSubreddits,
+  loading,
   cache: combineReducers({
     redditCache,
     redditsRead
-  }),
-  selectedReddit,
-  loading
+  })
 })

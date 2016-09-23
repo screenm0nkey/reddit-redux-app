@@ -14,11 +14,11 @@ export default function configureStore(preloadedState) {
 
   //save any changes to the state to localstorage
   store.subscribe(throttle(() => {
-    const {cache, selectedReddit, subReddits} = store.getState();
+    const {cache, selectedSubreddit, selectedSubreddits} = store.getState();
     saveState({
       cache,
-      selectedReddit,
-      subReddits
+      selectedSubreddit,
+      selectedSubreddits
     });
   }, 1000));
 

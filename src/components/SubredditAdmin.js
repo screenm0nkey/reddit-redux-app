@@ -16,14 +16,14 @@ export default class SubredditAdmin extends Component {
   }
 
   render () {
-    const {subReddits} = this.props;
-    if (!subReddits.length) {
+    const {selectedSubreddits} = this.props;
+    if (!selectedSubreddits.length) {
       return (<div></div>);
     }
     return (
       <div className="subreddit-admin">
         <form onSubmit={this.handleSubmit}>
-          {subReddits.map(post => {
+          {selectedSubreddits.map(post => {
               return (<fieldset key={post}><input ref={post} type="checkbox"/>{post}</fieldset>)
             }
           )}

@@ -15,10 +15,10 @@ function requestFinished() {
 }
 
 // these the items used in the dropdown menu
-function subRedditsLoaded(subReddits, savedSubReddits) {
+function subRedditsLoaded(selectedSubreddits, savedSubReddits) {
   return {
     type: c.SUBREDDITS_LOADED,
-    value: subReddits,
+    value: selectedSubreddits,
     savedSubReddits
   }
 }
@@ -38,11 +38,11 @@ export function removeSubReddit(subreddit) {
   }
 }
 
-export function subRedditRead(id, selectedReddit) {
+export function subRedditRead(id, selectedSubreddit) {
   return {
     type: c.SUBREDDIT_READ,
     value: id,
-    selectedReddit
+    selectedSubreddit
   }
 }
 
@@ -54,10 +54,10 @@ export function addSubreddit(subReddit) {
   }
 }
 
-export function addSubreddits(subReddits) {
+export function addSubreddits(selectedSubreddits) {
   return {
     type: c.ADD_SUBREDDITS,
-    value: subReddits
+    value: selectedSubreddits
   }
 }
 

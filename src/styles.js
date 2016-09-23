@@ -11,6 +11,6 @@ export const divStyle = {
   opacity : '0.7'
 };
 
-export const selectedReddit = {
+export const selectedSubreddit = {
   color : 'red'
 };

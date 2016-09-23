@@ -11,18 +11,18 @@ class App extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const inCache = nextProps.redditCache[nextProps.selectedReddit];
-    if (!inCache || this.props.selectedReddit !== nextProps.selectedReddit) {
-      this.props.fetchSubReddit(nextProps.selectedReddit);
+    const inCache = nextProps.redditCache[nextProps.selectedSubreddit];
+    if (!inCache || this.props.selectedSubreddit !== nextProps.selectedSubreddit) {
+      this.props.fetchSubReddit(nextProps.selectedSubreddit);
     }
   }
 
   shouldComponentUpdate(nextProps) {
-    return !!nextProps.redditCache[nextProps.selectedReddit];
+    return !!nextProps.redditCache[nextProps.selectedSubreddit];
   }
 
   render() {
-    const {loading, selectedReddit, location} = this.props;
+    const {loading, selectedSubreddit, location} = this.props;
     const cn = ['the-app', location.pathname.slice(1)].join(' ');
     return (
       <div>
@@ -34,7 +34,7 @@ class App extends Component {
           </nav>
           <Loading
             loading={loading}
-            selectedReddit={selectedReddit}>
+            selectedSubreddit={selectedSubreddit}>
           </Loading>
         </div>
         <div className={cn}>
@@ -46,10 +46,10 @@ class App extends Component {
 }
 
 function mapStateToProps(state) {
-  const {cache, selectedReddit, loading} = state;
+  const {cache, selectedSubreddit, loading} = state;
   return {
     redditCache: cache.redditCache,
-    selectedReddit,
+    selectedSubreddit,
     loading
   };
 }
