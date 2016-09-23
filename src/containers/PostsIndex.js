@@ -21,7 +21,7 @@ class PostsIndex extends Component {
 
   handleRefresh(evt) {
     evt.preventDefault();
-    this.props.fetchSubReddit(this.props.selectedSubreddit, c.REFRESH);
+    this.props.fetchSubreddit(this.props.selectedSubreddit, c.REFRESH);
   }
 
   handleRedditRead(id) {
@@ -88,7 +88,7 @@ function mapStateToProps(state) {
   };
 }
 // notice the action are also passed in as an object as that's how they are imported i.e.
-// {fetchSubReddit : fetchSubReddits ...}
+// {fetchSubreddit : fetchSubReddits ...}
 console.log(101, actions);
 export default connect(mapStateToProps, actions)(PostsIndex)
 

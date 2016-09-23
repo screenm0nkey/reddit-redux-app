@@ -7,13 +7,13 @@ import Loading from '../components/Loading';
 
 class App extends Component {
   componentDidMount() {
-    this.props.fetchSubReddits();
+    this.props.fetchSubredditsList();
   }
 
   componentWillReceiveProps(nextProps) {
     const inCache = nextProps.redditCache[nextProps.selectedSubreddit];
     if (!inCache || this.props.selectedSubreddit !== nextProps.selectedSubreddit) {
-      this.props.fetchSubReddit(nextProps.selectedSubreddit);
+      this.props.fetchSubreddit(nextProps.selectedSubreddit);
     }
   }
 
@@ -54,5 +54,5 @@ function mapStateToProps(state) {
   };
 }
 // notice the action are also passed in as an object as that's how they are imported i.e.
-// {fetchSubReddit : fetchSubReddits ...}
+// {fetchSubreddit : fetchSubReddits ...}
 export default connect(mapStateToProps, actions)(App)

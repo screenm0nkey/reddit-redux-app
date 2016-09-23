@@ -14,11 +14,11 @@ export default class OtherSubreddits extends Component {
   }
 
   render () {
-    const {popularSubreddits} = this.props;
+    const {subredditsList} = this.props;
     return (
       <div className="subreddit-admin other">
         <form onSubmit={this.handleSubmit}>
-          {popularSubreddits.map(post => {
+          {subredditsList.map(post => {
               return (<fieldset key={post}><input ref={post} type="checkbox"/>{post}</fieldset>)
             }
           )}
