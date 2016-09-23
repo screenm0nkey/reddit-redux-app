@@ -4,7 +4,7 @@ import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import {Router, browserHistory} from 'react-router';
 import configureStore from './store/configureStore';
-import { loadState } from './localStorage';
+import { loadState } from './store/localStorage';
 import routes from './routes';
 
 const preloadedState = loadState();

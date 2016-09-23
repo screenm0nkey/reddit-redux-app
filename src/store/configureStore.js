@@ -3,7 +3,7 @@ import throttle from 'lodash/throttle';
 import thunkMiddleware from 'redux-thunk'
 import createLogger from 'redux-logger'
 import rootReducer from '../reducers';
-import { saveState } from '../localStorage';
+import { saveState } from './localStorage';
 
 export default function configureStore(preloadedState) {
   const store = createStore(

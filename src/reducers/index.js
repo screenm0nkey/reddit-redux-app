@@ -45,7 +45,7 @@ function subReddits(state = [], action) {
 
 // this is a list of popular subreddits which are not in the subreddit list (above)
 // they are displayed in the OtherSubreddits component
-function subRedditsOther(state = [], action) {
+function popularSubreddits(state = [], action) {
   switch (action.type) {
     case c.REPLACE_SUBREDDITS:
       return uniq([
@@ -153,7 +153,7 @@ function selectedReddit(state = c.DEFAULT, action) {
 
 export default combineReducers({
   subReddits,
-  subRedditsOther,
+  popularSubreddits,
   cache: combineReducers({
     redditCache,
     redditsRead
