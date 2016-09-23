@@ -47,9 +47,14 @@ export default class Post extends Component {
           <span className="date">{post.date}</span>
           <span className="meta">
             [score = {post.score}]
-            [comments = {post.comments}]
           </span>
+          {post.url===post.permalink &&
+            <span className="meta">[comments = {post.comments}]</span>
+          }
         </a>
+        {post.url!==post.permalink &&
+          <a className="comments-link" href={post.permalink} target="_blank">[comments = {post.comments}]</a>
+        }
         {hasThumb && <img className="imagey" style={this.style()} src={post.thumbnail}/>}
       </li>
     )

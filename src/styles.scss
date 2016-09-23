@@ -25,6 +25,10 @@ h1,h2 {
   height:100%;
 }
 
+iframe {
+  width : 300px;
+}
+
 .app-header {
   content:" ";
   display:table;
@@ -92,11 +96,11 @@ h1,h2 {
     position: relative;
     background-color: #cacbd0;
     border: solid 6px #666666;
-    border-top: solid 21px #666;
+    border-top: solid 30px #666;
     flex: 1;
     overflow: hidden;
     overflow-y: auto;
-    top:-25px;
+    top: -25px;
 
     p {
       font-size: 40px;
@@ -163,7 +167,11 @@ ul {
   .meta {
     color: rgb(212, 255, 0);
     display: inline-block;
-    margin-left: 10px;
+    margin-left: 5px;
+  }
+  .comments-link {
+    color: #216f15;
+    margin-left : 5px;
   }
   .date {
     font-style: italic;
@@ -182,10 +190,11 @@ div {
 
     > h2 {
       position: absolute;
-      top: 99px;
-      right: 0px;
+      top: 105px;
+      right: 5px;
       font-size: 23px;
       color: white;
+      z-index: 1;
     }
   }
 }
@@ -202,17 +211,29 @@ p.desc {
 
 
 /*LastUpdated component*/
-.last-updated .refresh-date {
-  font-size: 11px;
-  color: #666;
-  padding: 2px 10px;
-  border-radius: 3px;
-  background-color: orange;
-  margin-right : 10px;
+.last-updated {
+  position: relative;
+  top: 4px;
+  left: 2px;
+  z-index:1;
+  display: table;
+
+  .refresh-date {
+    font-size: 11px;
+    color: #666;
+    padding: 2px 10px;
+    border-radius: 3px;
+    background-color: orange;
+    margin-right : 10px;
+  }
+
+  span {
+    color: white;
+  }
 }
-.last-updated span {
-  color: white;
-}
+
+
+
 
 /*AddSubreddit component*/
 .add-subreddit {
@@ -233,6 +254,11 @@ p.desc {
 /*Picker component*/
 .picker {
   margin-bottom: 10px;
+
+  select {
+    position: relative;
+    top : 4px;
+  }
 }
 
 

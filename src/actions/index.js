@@ -168,7 +168,8 @@ const formatRedditData = data => {
       thumbnail: data.thumbnail,
       comments: data.num_comments,
       score: data.score,
-      date : d.toGMTString().slice(0,16)
+      date : d.toGMTString().slice(0,16),
+      permalink : 'https://www.reddit.com' + data.permalink
     }
   }).sort((a, b)=>b.score - a.score);
 };
