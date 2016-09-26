@@ -2,11 +2,12 @@ import {combineReducers} from 'redux'
 import * as c from '../constants';
 import uniq from 'lodash/uniq';
 import without from 'lodash/without';
+import map from 'lodash/map';
 
 
 const sorter = (a, b) => {
-  a = a.toLowerCase();
-  b = b.toLowerCase();
+  a = a.subreddit.toLowerCase();
+  b = b.subreddit.toLowerCase();
   switch (true) {
     case a < b:
       return -1;
@@ -53,7 +54,8 @@ function subredditsList(state = [], action) {
         ...action.remove
       ]).sort(sorter);
     case c.SUBREDDITS_LOADED:
-      const newSubReddits = without(action.value, ...action.savedSubReddits);
+      const saved = map(action.savedSubReddits, 'subreddit');
+      const newSubReddits = action.value.filter(item => saved.indexOf(item.subreddit)<0);
       return uniq([
         ...state,
         ...newSubReddits

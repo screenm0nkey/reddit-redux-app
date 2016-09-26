@@ -21,7 +21,7 @@ class PostsIndex extends Component {
 
   handleRefresh(evt) {
     evt.preventDefault();
-    this.props.fetchSubreddit(this.props.selectedSubreddit, c.REFRESH);
+    this.props.fetchSubeddit(this.props.selectedSubreddit, c.REFRESH);
   }
 
   handleRedditRead(id) {

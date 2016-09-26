@@ -11,7 +11,6 @@ class App extends Component {
 
   render() {
     const {selectedSubreddits, subredditsList, replaceSubreddits, addSubreddits} = this.props;
-
     return (
       <div>
         <SubredditAdmin

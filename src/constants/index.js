@@ -11,4 +11,7 @@ export const ADD_SUBREDDIT = 'ADD_SUBREDDIT';
 export const REMOVE_SUBREDDIT = 'REMOVE_SUBREDDIT';
 export const ADD_SUBREDDITS = 'ADD_SUBREDDITS';
 export const REFRESH = true;
-export const DEFAULT = 'default';
+export const DEFAULT = {
+  subreddit : 'default',
+  subscribers: 0
+};

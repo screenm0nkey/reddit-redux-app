@@ -30,7 +30,7 @@ export function replaceSubreddits(keep, remove) {
   }
 }
 
-export function removeSubReddit(subreddit) {
+export function removeSubreddit(subreddit) {
   return {
     type: c.REMOVE_SUBREDDIT,
     payload : subreddit

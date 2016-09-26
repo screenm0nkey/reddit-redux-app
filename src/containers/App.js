@@ -27,7 +27,7 @@ class App extends Component {
     return (
       <div>
         <div className="app-header">
-          <h2 className="heading">My Reddit APP</h2>
+          <h2 className="heading"> APP</h2>
           <nav>
             <Link to="/" className="btn btn-primary">Posts</Link>
             <Link to="/admin" className="btn btn-primary">Admin</Link>

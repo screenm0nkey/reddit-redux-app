@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import {findSubredditObject, findChecked} from '../utils';
 
 export default class OtherSubreddits extends Component {
 
@@ -9,7 +10,7 @@ export default class OtherSubreddits extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const keep = Object.keys(this.refs).filter(key => this.refs[key].checked);
+    const keep = findSubredditObject(findChecked(this.refs), this.props.subredditsList);
     this.props.addSubreddits(keep);
   }
 
@@ -19,7 +20,12 @@ export default class OtherSubreddits extends Component {
       <div className="subreddit-admin other">
         <form onSubmit={this.handleSubmit}>
           {subredditsList.map(post => {
-              return (<fieldset key={post}><input ref={post} type="checkbox"/>{post}</fieldset>)
+              return (
+                <fieldset key={post.subreddit}>
+                  <input ref={post.subreddit} type="checkbox"/>
+                  {post.subreddit} : {Number(post.subscribers).toLocaleString()}
+                </fieldset>
+              )
             }
           )}
         </form>

@@ -3,14 +3,6 @@ import axios from 'axios'
 import {uniqBy} from 'lodash';
 
 const DELAY = 0;
-/*
- /subreddits/popular
- /subreddits/new
- /subreddits/gold
- /subreddits/default
- */
-
-
 
 
 // called in App.componentDidMount()
@@ -19,13 +11,13 @@ export function fetchSubredditsList() {
     return res.data.data.children
   }
   function getPopular(){
-    return axios.get('https://www.reddit.com/subreddits/popular/.json?limit=100');
+    return axios.get('https://www.reddit.com/subreddits/popular/.json?limit=5');
   }
   function getDefault(){
-    return axios.get('https://www.reddit.com/subreddits/.json?limit=100');
+    return axios.get('https://www.reddit.com/subreddits/.json?limit=5');
   }
   function getNew(){
-    return axios.get('https://www.reddit.com/subreddits/new/.json?limit=100');
+    return axios.get('https://www.reddit.com/subreddits/new/.json?limit=5');
   }
   return (dispatch, getState) => {
     dispatch(act.requestStarted('Getting list of 100 popular sub reddits'));
@@ -38,13 +30,16 @@ export function fetchSubredditsList() {
       })
       .then(data => {
         return data.map(item=>{
-          const url = item.data.url.replace('/r/', '').replace('/', '');
-          return `${url}`
+          const subreddit = item.data.url.replace('/r/', '').replace('/', '');
+          return {
+            subreddit,
+            subscribers : item.data.subscribers
+          }
         });
       })
       .then(data => {
         data = _.uniqBy(data, function (e) {
-          return e;
+          return e.subreddit;
         });
         dispatch(act.requestFinished());
         dispatch(act.popularSubredditsLoaded(data, getState().selectedSubreddits));
@@ -58,26 +53,26 @@ export function fetchSubreddit(reddit, refresh) {
   return (dispatch, getState) => {
     const state = getState();
     // don't fetch if default is selected
-    if (reddit === 'default') {
+    if (reddit.subreddit === 'default') {
       dispatch(act.subRedditLoaded(reddit, []));
       return;
     }
     // don't fetch if reddit is in cache
-    const cachedData = state.cache.redditCache[reddit] || {};
+    const cachedData = state.cache.redditCache[reddit.subreddit] || {};
     if (cachedData.data && cachedData.data.length && !refresh) {
       return;
     }
     // show the loading icon
-    dispatch(act.requestStarted(`Getting posts for ${reddit}`));
+    dispatch(act.requestStarted(`Getting posts for ${reddit.subreddit}`));
     dispatch(act.prepareSubRedditCache(reddit));
     // fetch reddit data
-    fetch(`https://www.reddit.com/r/${reddit}.json`)
+    fetch(`https://www.reddit.com/r/${reddit.subreddit}.json`)
       .then(res =>res.json())
       .then(subredditData => {
         if (subredditData.error) {
           dispatch(act.requestFinished());
-          dispatch(act.removeSubReddit(reddit));
-          window.alert(`${reddit} is ${subredditData.message}`);
+          dispatch(act.removeSubreddit(reddit));
+          window.alert(`${reddit.subreddit} is ${subredditData.message}`);
           return;
         }
         // could't get promise.all to work with fetch()
@@ -95,7 +90,7 @@ export function fetchSubreddit(reddit, refresh) {
 
 
 const fetchSubredditInfo = (dispatch, reddit) => {
-  return fetch(`https://www.reddit.com/r/${reddit}/about.json`)
+  return fetch(`https://www.reddit.com/r/${reddit.subreddit}/about.json`)
     .then(res =>res.json())
     .then(aboutData => {
       const data = {

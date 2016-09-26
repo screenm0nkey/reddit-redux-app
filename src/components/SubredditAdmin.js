@@ -1,8 +1,7 @@
 import React, { Component, PropTypes } from 'react';
-
+import {findSubredditObject, findChecked, findUnchecked} from '../utils';
 
 export default class SubredditAdmin extends Component {
-
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -10,8 +9,8 @@ export default class SubredditAdmin extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const keep = Object.keys(this.refs).filter(key => !this.refs[key].checked);
-    const remove = Object.keys(this.refs).filter(key => this.refs[key].checked);
+    const keep = findSubredditObject(findUnchecked(this.refs), this.props.selectedSubreddits);
+    const remove = findSubredditObject(findChecked(this.refs), this.props.selectedSubreddits);
     this.props.replaceSubreddits(keep, remove);
   }
 
@@ -24,7 +23,11 @@ export default class SubredditAdmin extends Component {
       <div className="subreddit-admin">
         <form onSubmit={this.handleSubmit}>
           {selectedSubreddits.map(post => {
-              return (<fieldset key={post}><input ref={post} type="checkbox"/>{post}</fieldset>)
+              return (
+                <fieldset key={post.subreddit}>
+                  <input ref={post.subreddit} type="checkbox"/>{post.subreddit}
+                  </fieldset>
+              )
             }
           )}
         </form>
