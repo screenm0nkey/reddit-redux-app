@@ -14,11 +14,11 @@ export function requestFinished() {
   }
 }
 
-export function popularSubredditsLoaded(subreddits, savedSubReddits) {
+export function popularSubredditsLoaded(subreddits, savedSubreddits) {
   return {
     type: c.SUBREDDITS_LOADED,
     value: subreddits,
-    savedSubReddits
+    savedSubreddits
   }
 }
 
@@ -46,10 +46,14 @@ export function subRedditRead(id, selectedSubreddit) {
 }
 
 
-export function addSubreddit(subReddit) {
+export function addSubreddit(subreddit) {
   return {
     type: c.ADD_SUBREDDIT,
-    value: subReddit
+    value: {
+      subreddit,
+      subscribers : 0,
+      id : (Math.random() * 100000) + 1,
+    }
   }
 }
 
@@ -67,7 +71,7 @@ export function prepareSubRedditCache(reddit) {
   }
 }
 
-export function subRedditLoaded(reddit, data) {
+export function subredditLoaded(reddit, data) {
   return {
     type: c.SUBREDDIT_LOADED,
     value: data,

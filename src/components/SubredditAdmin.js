@@ -24,8 +24,10 @@ export default class SubredditAdmin extends Component {
         <form onSubmit={this.handleSubmit}>
           {selectedSubreddits.map(post => {
               return (
-                <fieldset key={post.subreddit}>
-                  <input ref={post.subreddit} type="checkbox"/>{post.subreddit}
+                <fieldset key={post.id}>
+                  <input ref={post.subreddit} type="checkbox"/>
+                    {post.subreddit}&nbsp;
+                  <span className="subscribers">[{Number(post.subscribers).toLocaleString()}]</span>
                   </fieldset>
               )
             }

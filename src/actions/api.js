@@ -7,40 +7,49 @@ const DELAY = 0;
 
 // called in App.componentDidMount()
 export function fetchSubredditsList() {
-  function getChildren (res) {
+  const limit = 100;
+
+  function getChildren(res) {
     return res.data.data.children
   }
-  function getPopular(){
-    return axios.get('https://www.reddit.com/subreddits/popular/.json?limit=5');
+
+  function getPopular() {
+    return axios.get(`https://www.reddit.com/subreddits/popular/.json?limit=${limit}`);
   }
-  function getDefault(){
-    return axios.get('https://www.reddit.com/subreddits/.json?limit=5');
+
+  function getDefault() {
+    return axios.get(`https://www.reddit.com/subreddits/.json?limit=${limit}`);
   }
-  function getNew(){
-    return axios.get('https://www.reddit.com/subreddits/new/.json?limit=5');
+
+  function getNew() {
+    return axios.get(`https://www.reddit.com/subreddits/new/.json?limit=${limit}`);
   }
+
   return (dispatch, getState) => {
     dispatch(act.requestStarted('Getting list of 100 popular sub reddits'));
     axios.all([getPopular(), getDefault(), getNew()])
       .then(res => {
-         const pop = getChildren(res[0]);
-         const def = getChildren(res[1]);
-         const gld = getChildren(res[2]);
+        const pop = getChildren(res[0]);
+        const def = getChildren(res[1]);
+        const gld = getChildren(res[2]);
         return pop.concat(def, gld);
       })
       .then(data => {
-        return data.map(item=>{
+        return data.map(item=> {
           const subreddit = item.data.url.replace('/r/', '').replace('/', '');
           return {
+            id: item.data.id,
             subreddit,
-            subscribers : item.data.subscribers
+            subscribers: item.data.subscribers
           }
         });
       })
       .then(data => {
+        // remove duplicates
         data = _.uniqBy(data, function (e) {
           return e.subreddit;
-        });
+        })
+          .filter((item)=>item.subscribers > 1);
         dispatch(act.requestFinished());
         dispatch(act.popularSubredditsLoaded(data, getState().selectedSubreddits));
       });
@@ -54,7 +63,7 @@ export function fetchSubreddit(reddit, refresh) {
     const state = getState();
     // don't fetch if default is selected
     if (reddit.subreddit === 'default') {
-      dispatch(act.subRedditLoaded(reddit, []));
+      dispatch(act.subredditLoaded(reddit, []));
       return;
     }
     // don't fetch if reddit is in cache
@@ -75,14 +84,13 @@ export function fetchSubreddit(reddit, refresh) {
           window.alert(`${reddit.subreddit} is ${subredditData.message}`);
           return;
         }
-        // could't get promise.all to work with fetch()
-        // so doing nested call
+        // could't get promise.all to work with fetch() so doing nested call
         fetchSubredditInfo(dispatch, reddit);
         subredditData = formatRedditData(subredditData);
         // added an intentional timeout so show loading icon
         setTimeout(()=> {
           dispatch(act.requestFinished());
-          dispatch(act.subRedditLoaded(reddit, subredditData));
+          dispatch(act.subredditLoaded(reddit, subredditData));
         }, DELAY)
       });
   }
@@ -93,10 +101,14 @@ const fetchSubredditInfo = (dispatch, reddit) => {
   return fetch(`https://www.reddit.com/r/${reddit.subreddit}/about.json`)
     .then(res =>res.json())
     .then(aboutData => {
+      const {id, header_title, header_img, public_description, subscribers} = aboutData.data;
       const data = {
-        title: aboutData.data.header_title,
-        img: aboutData.data.header_img,
-        description: aboutData.data.public_description
+        id,
+        subscribers,
+        subreddit: reddit.subreddit,
+        title: header_title,
+        img: header_img,
+        description: public_description
       };
       dispatch(act.subRedditInfoLoaded(reddit, data));
     });
@@ -116,8 +128,8 @@ const formatRedditData = data => {
       thumbnail: data.thumbnail,
       comments: data.num_comments,
       score: data.score,
-      date : d.toGMTString().slice(0,16),
-      permalink : 'https://www.reddit.com' + data.permalink
+      date: d.toGMTString().slice(0, 16),
+      permalink: 'https://www.reddit.com' + data.permalink
     }
   }).sort((a, b)=>b.score - a.score);
 };

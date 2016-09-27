@@ -11,14 +11,14 @@ class App extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const inCache = nextProps.redditCache[nextProps.selectedSubreddit];
-    if (!inCache || this.props.selectedSubreddit !== nextProps.selectedSubreddit) {
+    const inCache = nextProps.redditCache[nextProps.selectedSubreddit.subreddit];
+    if (!inCache || this.props.selectedSubreddit.subreddit !== nextProps.selectedSubreddit.subreddit) {
       this.props.fetchSubreddit(nextProps.selectedSubreddit);
     }
   }
 
   shouldComponentUpdate(nextProps) {
-    return !!nextProps.redditCache[nextProps.selectedSubreddit];
+    return !!nextProps.redditCache[nextProps.selectedSubreddit.subreddit];
   }
 
   render() {
@@ -27,7 +27,7 @@ class App extends Component {
     return (
       <div>
         <div className="app-header">
-          <h2 className="heading"> APP</h2>
+          <h2 className="heading">Morgan Stanley</h2>
           <nav>
             <Link to="/" className="btn btn-primary">Posts</Link>
             <Link to="/admin" className="btn btn-primary">Admin</Link>

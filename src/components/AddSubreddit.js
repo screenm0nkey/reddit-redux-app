@@ -17,7 +17,7 @@ export default class AddSubreddit extends Component {
   render () {
     return (
       <form className="add-subreddit" ref="addsubForm"  onSubmit={this.handleSubmit}>
-        <input ref="addsub" type="text" placeholder="Add Subreddit"/>
+        <input ref="addsub" type="text" placeholder="Add"/>
       </form>
     )
   }

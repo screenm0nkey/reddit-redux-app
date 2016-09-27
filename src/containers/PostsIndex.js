@@ -5,6 +5,7 @@ import  Picker from '../components/Picker';
 import  Posts from '../components/Posts';
 import  AddSubreddit from '../components/AddSubreddit';
 import  LastUpdated from '../components/LastUpdated';
+import {findSubredditObject} from '../utils';
 import * as c from '../constants';
 
 class PostsIndex extends Component {
@@ -16,12 +17,13 @@ class PostsIndex extends Component {
   }
 
   handleChange(val) {
-    this.props.subRedditSelected(val);
+    var subreddit = findSubredditObject([val], this.props.selectedSubreddits)[0];
+    this.props.subRedditSelected(subreddit);
   }
 
   handleRefresh(evt) {
     evt.preventDefault();
-    this.props.fetchSubeddit(this.props.selectedSubreddit, c.REFRESH);
+    this.props.fetchSubreddit(this.props.selectedSubreddit, c.REFRESH);
   }
 
   handleRedditRead(id) {
@@ -30,15 +32,16 @@ class PostsIndex extends Component {
 
   render() {
     const {selectedSubreddits, redditCache, selectedSubreddit, read, addSubreddit} = this.props;
-    const subReddit = redditCache[selectedSubreddit] || {data:[], date : new Date()};
-    const posts = subReddit ? subReddit.data : [];
-    const date = subReddit ? subReddit.date : '';
+    const subreddit = redditCache[selectedSubreddit.subreddit] || {data:[], date : new Date()};
+    const posts = subreddit ? subreddit.data : [];
+    const date = subreddit ? subreddit.date : '';
     const showRefresh = !!(posts.length > 0 && selectedSubreddit && selectedSubreddit !== 'default');
-    const title = selectedSubreddit !== c.DEFAULT ? `R/${selectedSubreddit}` : '';
+    const title = selectedSubreddit.subreddit !== c.DEFAULT.subreddit ? `R/${selectedSubreddit.subreddit} [${Number(selectedSubreddit.subscribers).toLocaleString()}]` : '';
 
     return (
       <div>
-        <img className="group-image" src={subReddit.img} alt={subReddit.title}/>
+        <img className="group-image" src={subreddit.img} alt={subreddit.title}/>
+
         <header>
           <div className="heading">
             <h2>
@@ -47,18 +50,14 @@ class PostsIndex extends Component {
           </div>
           <div className="reddit-selector">
             <AddSubreddit addSubreddit={addSubreddit}></AddSubreddit>
-
             <Picker
               items={selectedSubreddits}
               selectedSubreddit={selectedSubreddit}
               onChange={this.handleChange}>
             </Picker>
           </div>
-
-          <p className="desc">{subReddit.description}</p>
-
+          <p className="desc">{selectedSubreddit.description}</p>
           <LastUpdated
-            items={selectedSubreddits}
             date={date}
             showRefresh={showRefresh}
             handleRefresh={this.handleRefresh}>
@@ -71,6 +70,7 @@ class PostsIndex extends Component {
             read={read}
             onClick={this.handleRedditRead}></Posts>
         </div>
+
       </div>
     )
   }
@@ -81,7 +81,7 @@ function mapStateToProps(state) {
   const {cache, selectedSubreddit, selectedSubreddits, loading} = state;
   return {
     redditCache: cache.redditCache,
-    read: cache.redditsRead[selectedSubreddit] || {},
+    read: cache.redditsRead[selectedSubreddit.subreddit] || {},
     selectedSubreddit,
     selectedSubreddits, // this is used for dropdown menu
     loading

@@ -6,16 +6,11 @@ import map from 'lodash/map';
 
 
 const sorter = (a, b) => {
-  a = a.subreddit.toLowerCase();
-  b = b.subreddit.toLowerCase();
-  switch (true) {
-    case a < b:
-      return -1;
-    case a > b:
-      return 1;
-    default:
-      return 0;
-  }
+  const an = a.subscribers;
+  const bn = b.subscribers;
+  const as = a.subreddit.toLowerCase();
+  const bs = b.subreddit.toLowerCase();
+  return an === bn ? (as === bs ? 0 : as > bs ? 1 : -1) : an < bn ? 1 : -1;
 };
 
 
@@ -38,6 +33,28 @@ function selectedSubreddits(state = [], action) {
         ...state,
         ...action.value
       ]).sort(sorter);
+    // update the selectedSubreddits info when
+    // fetchSubredditInfo() is called
+    case c.SUBREDDIT_INFO_LOADED:
+      let arr = state.filter(reddit => reddit.subreddit !== action.value.subreddit);
+      arr.push(Object.assign({}, action.value));
+      return arr;
+    default:
+      return state;
+  }
+}
+
+
+function selectedSubreddit(state = c.DEFAULT, action) {
+  switch (action.type) {
+    case c.REPLACE_SUBREDDITS:
+      return checkSelectedRedditIsInList(state, action);
+    case c.SUBREDDIT_SELECTED:
+      return action.value;
+    case c.ADD_SUBREDDIT:
+      return action.value;
+    case c.SUBREDDIT_INFO_LOADED:
+      return Object.assign({}, state, action.value);
     default:
       return state;
   }
@@ -94,19 +111,19 @@ function redditCache(state = {}, action) {
   switch (action.type) {
     case c.PREPARE_CACHE:
       return Object.assign({}, state, {
-        [action.reddit] : {
+        [action.reddit.subreddit] : {
           data : []
         }
       });
     case c.SUBREDDIT_LOADED:
-      obj[action.reddit] = {
-        data: action.value,
-        date: action.reddit === c.DEFAULT ? '' : new Date().toGMTString()
+      obj[action.reddit.subreddit] = {
+        data: action.value || [],
+        date: action.reddit.subreddit === c.DEFAULT.subreddit ? '' : new Date().toGMTString()
       };
       return Object.assign({}, state, obj);
     case c.SUBREDDIT_INFO_LOADED:
       let subReddit = {
-        [action.reddit] : updateSubredditInfo(state[action.reddit], action)
+        [action.reddit.subreddit] : updateSubredditInfo(state[action.reddit.subreddit], action)
       };
       return Object.assign({}, state, subReddit);
     default:
@@ -123,8 +140,8 @@ function redditsReadGroup(state = {}, action) {
 function redditsRead(state = {}, action) {
   switch (action.type) {
     case c.SUBREDDIT_READ:
-      let group = redditsReadGroup(state[action.selectedSubreddit], action);
-      return Object.assign({}, state, {[action.selectedSubreddit] : group});
+      let group = redditsReadGroup(state[action.selectedSubreddit.subreddit], action);
+      return Object.assign({}, state, {[action.selectedSubreddit.subreddit] : group});
     default:
       return state;
   }
@@ -140,18 +157,7 @@ function checkSelectedRedditIsInList(state, action) {
 }
 
 
-function selectedSubreddit(state = c.DEFAULT, action) {
-  switch (action.type) {
-    case c.REPLACE_SUBREDDITS:
-      return checkSelectedRedditIsInList(state, action);
-    case c.SUBREDDIT_SELECTED:
-      return action.value;
-    case c.ADD_SUBREDDIT:
-      return action.value;
-    default:
-      return state;
-  }
-}
+
 
 export default combineReducers({
   selectedSubreddits,

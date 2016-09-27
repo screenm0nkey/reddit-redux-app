@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 
 export default class LastUpdated extends Component {
   render () {
-    const {items, date, showRefresh, handleRefresh} = this.props;
+    const { date, showRefresh, handleRefresh} = this.props;
     const isDateStr =  !!(date && date.substr);
     return (
       <div className="last-updated">

@@ -21,9 +21,10 @@ export default class OtherSubreddits extends Component {
         <form onSubmit={this.handleSubmit}>
           {subredditsList.map(post => {
               return (
-                <fieldset key={post.subreddit}>
+                <fieldset key={post.id}>
                   <input ref={post.subreddit} type="checkbox"/>
-                  {post.subreddit} : {Number(post.subscribers).toLocaleString()}
+                  {post.subreddit}&nbsp;
+                  <span className="subscribers">[{Number(post.subscribers).toLocaleString()}]</span>
                 </fieldset>
               )
             }
