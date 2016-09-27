@@ -22,9 +22,7 @@ var config = {
     loaders: [
       {test: /\.js$/, loaders: ['babel'], exclude: /node_modules/, include: srcPath },
       {test: /\.css$/, exclude: /node_modules/, loader: 'style-loader!css-loader'},
-      {test: /\.scss$/, exclude: /node_modules/, loaders: ["style", "css", "sass"]
-      }
-
+      {test: /\.scss$/, exclude: /node_modules/, loaders: ["style", "css", "sass"]}
     ]
   }
 };
@@ -46,7 +44,8 @@ if (process.env.NODE_ENV==='production') {
     module: {
       loaders: [
         {test: /\.js$/, loader: 'babel', exclude: /node_modules/, include: srcPath, query: {presets: ['es2015', 'react']}},
-        {test: /\.css$/, exclude: /node_modules/, loader: 'style-loader!css-loader'}
+        {test: /\.css$/, exclude: /node_modules/, loader: 'style-loader!css-loader'},
+        {test: /\.scss$/, exclude: /node_modules/, loaders: ["style", "css", "sass"]}
       ]
     }
   };
